@@ -3,6 +3,7 @@ Imports InTheHand.Net.Bluetooth
 Imports System.IO
 Imports System.Threading
 Imports Microsoft.Office.Interop
+Imports System.ComponentModel
 
 
 
@@ -15,6 +16,7 @@ Public Class PowerBlueServerApp
     Dim streamRecievedFromBtClient As Net.Sockets.NetworkStream
     Dim pptAppObj As PowerPoint.Application
     Dim presentation As PowerPoint.Presentation
+
 
 
     Private Sub BrowsePptButton_Click(sender As Object, e As EventArgs) Handles BrowsePptButton.Click
@@ -61,7 +63,7 @@ Public Class PowerBlueServerApp
 
     Private Sub StartServerButton_Click(sender As Object, e As EventArgs) Handles StartServerButton.Click
         'PowerBlueLogTextBox.AppendText(vbCrLf & "Power Blue Server Started...")
-        'minimizePowerBlueServerApp()
+        minimizePowerBlueServerApp()
         'closeAlreadyOpenedPowerPointApp()
         'If (isPowerPointAppRunning() = True) Then
         'MsgBox("Already Powerpoint application is Running. Please close it to Start the Server.")
@@ -83,7 +85,15 @@ Public Class PowerBlueServerApp
 
 
         End If
-        
+
+        Dim answer As MsgBoxResult
+        answer = MsgBox("Do you want to quit now?", MsgBoxStyle.YesNo)
+        If answer = MsgBoxResult.Yes Then
+            exitPowerPoint()
+            MsgBox("Terminating program")
+            End
+        End If
+
 
     End Sub
 
@@ -124,50 +134,127 @@ Public Class PowerBlueServerApp
 
     Private Sub PowerBlueServerBackgroundWorker_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles PowerBlueServerBackgroundWorker.DoWork
         'MsgBox("Power Blue Server Started...")
-        PowerBlueLogTextBox.AppendText(vbCrLf & "Power Blue Server Started...")
-        StartServerButton.Enabled = False
-        BrowsePptButton.Enabled = False
-        StopServerButton.Enabled = True
+
+        ' Do not access the form's BackgroundWorker reference directly. 
+        ' Instead, use the reference provided by the sender parameter. 
+        'Dim bw As BackgroundWorker = CType(sender, BackgroundWorker)
+
+        ' Extract the argument. 
+        'Dim arg As Integer = Fix(e.Argument)
+
+        ' Start the time-consuming operation.
+        'e.Result = TimeConsumingOperation(bw, arg)
+        'e.Result = startDummyBluetoothServerInANewThread(bw)
+        'e.Result = startBluetoothServerInANewThread(bw)
+
         'startDummyBluetoothServerInANewThread()
         startBluetoothServerInANewThread()
+
+        ' If the operation was canceled by the user,  
+        ' set the DoWorkEventArgs.Cancel property to true. 
+        'If bw.CancellationPending Then
+        'e.Cancel = True
+        'End If
 
     End Sub
 
     Private Sub PowerBlueServerBackgroundWorker_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles PowerBlueServerBackgroundWorker.RunWorkerCompleted
         'MsgBox("Power Blue Server Stopped.")
-        PowerBlueLogTextBox.AppendText(vbCrLf & "Power Blue Server Stopped.")
-        StopServerButton.Enabled = False
-        StartServerButton.Enabled = False
-        BrowsePptButton.Enabled = True
+
+        If (e.Error IsNot Nothing) Then
+            ' There was an error during the operation. 
+            Dim msg As String = String.Format("An error occurred: {0}", e.Error.Message)
+            MessageBox.Show(msg)
+            PowerBlueLogTextBox.AppendText(vbCrLf & "Power Blue Server Stopped.")
+            StopServerButton.Enabled = False
+            StartServerButton.Enabled = False
+            BrowsePptButton.Enabled = True
+            pptAppObj = Nothing
+            presentation = Nothing
+        ElseIf e.Cancelled Then
+            ' Next, handle the case where the user canceled the  
+            ' operation. 
+            ' Note that due to a race condition in  
+            ' the DoWork event handler, the Cancelled 
+            ' flag may not have been set, even though 
+            ' CancelAsync was called.
+            ' The user canceled the operation.
+            MessageBox.Show("Operation was canceled")
+            PowerBlueLogTextBox.AppendText(vbCrLf & "Power Blue Server Stopped.")
+            StopServerButton.Enabled = False
+            StartServerButton.Enabled = False
+            BrowsePptButton.Enabled = True
+            pptAppObj = Nothing
+            presentation = Nothing
+        Else
+            ' Finally, handle the case where the operation succeeded.
+            ' The operation completed normally. 
+            Dim msg As String = String.Format("Result = {0}", e.Result)
+            'MessageBox.Show(msg)
+        End If
+
+
+        
+
     End Sub
+
 
 
     Private Sub startDummyBluetoothServerInANewThread()
 
+
+        PowerBlueLogTextBox.AppendText(vbCrLf & "Power Blue Server Started...")
+        StartServerButton.Enabled = False
+        BrowsePptButton.Enabled = False
+        StopServerButton.Enabled = True
+
+
         Thread.Sleep(3000)
         controlPowerPointWithCommand("Open")
+        'Thread.Sleep(3000)
+        'MsgBox("Total Slides = " & getNumberOfSlidesInPresentation())
         Thread.Sleep(3000)
         controlPowerPointWithCommand("Strt")
         'Thread.Sleep(3000)
+        ' MsgBox("Current Slide = " & getCurrentSlidePosition())
+        'Thread.Sleep(3000)
         'controlPowerPointWithCommand("Next")
+        'Thread.Sleep(3000)
+        'MsgBox("Total Slides = " & getCurrentSlidePosition())
         'Thread.Sleep(3000)
         'controlPowerPointWithCommand("Next")
         'Thread.Sleep(3000)
         'controlPowerPointWithCommand("Prev")
         'Thread.Sleep(3000)
+        'MsgBox("Total Slides = " & getCurrentSlidePosition())
+        'Thread.Sleep(3000)
         'controlPowerPointWithCommand("Next")
         'Thread.Sleep(3000)
+        'MsgBox("Total Slides = " & getCurrentSlidePosition())
+        'Thread.Sleep(3000)
         'controlPowerPointWithCommand("Prev")
         'Thread.Sleep(3000)
         'controlPowerPointWithCommand("Prev")
+        'Thread.Sleep(3000)
+        'controlPowerPointWithCommand("Last")
+        'Thread.Sleep(3000)
+        'controlPowerPointWithCommand("Frst")
+        'Thread.Sleep(3000)
+        'controlPowerPointWithCommand("Last")
+        'Thread.Sleep(3000)
+        'controlPowerPointWithCommand("Frst")
         Thread.Sleep(3000)
-        controlPowerPointWithCommand("Last")
+        controlPowerPointWithCommand("G001")
         Thread.Sleep(3000)
-        controlPowerPointWithCommand("Frst")
+        controlPowerPointWithCommand("G001")
         Thread.Sleep(3000)
-        controlPowerPointWithCommand("Last")
+        controlPowerPointWithCommand("G002")
         Thread.Sleep(3000)
-        controlPowerPointWithCommand("Frst")
+        controlPowerPointWithCommand("G002")
+        Thread.Sleep(3000)
+        controlPowerPointWithCommand("G003")
+        Thread.Sleep(3000)
+        controlPowerPointWithCommand("G005")
         Thread.Sleep(3000)
         controlPowerPointWithCommand("Stop")
         Thread.Sleep(3000)
@@ -175,8 +262,16 @@ Public Class PowerBlueServerApp
 
     End Sub
 
+   
+
+
     Private Sub startBluetoothServerInANewThread()
 
+
+        PowerBlueLogTextBox.AppendText(vbCrLf & "Power Blue Server Started...")
+        StartServerButton.Enabled = False
+        BrowsePptButton.Enabled = False
+        StopServerButton.Enabled = True
 
 
         Dim MyServiceUuid As Guid
@@ -217,6 +312,8 @@ Public Class PowerBlueServerApp
         Dim received(3) As Byte
         Dim pptControllingCommandFull As String
         Dim pptControllingCommand As String
+        pptControllingCommandFull = Nothing
+
 
         Try
 
@@ -225,9 +322,12 @@ Public Class PowerBlueServerApp
                 received = ar.AsyncState
                 pptControllingCommandFull = System.Text.UTF8Encoding.ASCII.GetString(received)
                 'The pptControllingCommandFull is coming as string with 1024 bytes. SO i need to trim the string to get the valid string length
-                pptControllingCommand = pptControllingCommandFull.Trim()
+                If (pptControllingCommandFull IsNot Nothing) Then
+                    pptControllingCommand = pptControllingCommandFull.Trim()
 
-                controlPowerPointWithCommand(pptControllingCommand)
+                    controlPowerPointWithCommand(pptControllingCommand)
+                End If
+
 
                 If (blueToothClient IsNot Nothing) Then
 
@@ -304,6 +404,11 @@ Public Class PowerBlueServerApp
             PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Command Recieved From Client: Blac" & vbCrLf & vbCrLf)
             'Do the coding here
             displayBlackBackGround()
+        ElseIf ((pptControllingCommand.Length() = 4) AndAlso (pptControllingCommand.StartsWith("G"))) Then
+            'MsgBox("Command Recieved: Blac")
+            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Command Recieved From Client:" & pptControllingCommand & vbCrLf & vbCrLf)
+            'Do the coding here
+            goToTheSlideNum(pptControllingCommand)
         End If
 
 
@@ -344,11 +449,13 @@ Public Class PowerBlueServerApp
     Private Sub startPowerPointSlideShow()
         If (presentation IsNot Nothing) Then
             presentation.SlideShowSettings.Run()
+            logCurrentSlideNumberShown()
         End If
     End Sub
 
     Private Sub stopPowerPointSlideShow()
         If (presentation IsNot Nothing) Then
+            logCurrentSlideNumberShown()
             presentation.SlideShowWindow.View.Exit()
             'presentation.Close()
             'pptAppObj.Quit()
@@ -359,45 +466,122 @@ Public Class PowerBlueServerApp
     Private Sub restartPowerPointFromFirstSlide()
         If (presentation IsNot Nothing) Then
             presentation.SlideShowWindow.View.First()
+            logCurrentSlideNumberShown()
         End If
     End Sub
 
     Private Sub movePowerPointToPreviousSlide()
         If (presentation IsNot Nothing) Then
-            presentation.SlideShowWindow.View.Previous()
+            If (getCurrentSlidePosition() > 1) Then
+                presentation.SlideShowWindow.View.Previous()
+                logCurrentSlideNumberShown()
+            Else
+                PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Cannot Move to Previous Slide. You are currently viewing the First Slide Num : " & getCurrentSlidePosition() & vbCrLf & vbCrLf)
+            End If
         End If
-
     End Sub
 
     Private Sub movePowerPointToNextSlide()
         If (presentation IsNot Nothing) Then
-            presentation.SlideShowWindow.View.Next()
+            If (getCurrentSlidePosition() < getNumberOfSlidesInPresentation()) Then
+                presentation.SlideShowWindow.View.Next()
+                logCurrentSlideNumberShown()
+            Else
+                PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Cannot Move to Next Slide. You are currently viewing the Last Slide Num : " & getCurrentSlidePosition() & vbCrLf & vbCrLf)
+            End If
         End If
     End Sub
 
     Private Sub movePowerPointToFirstSlide()
         If (presentation IsNot Nothing) Then
-            presentation.SlideShowWindow.View.First()
+            If (getCurrentSlidePosition() > 1) Then
+                presentation.SlideShowWindow.View.First()
+                logCurrentSlideNumberShown()
+            Else
+                PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "You are currently viewing the First Slide Num Only : " & getCurrentSlidePosition() & vbCrLf & vbCrLf)
+            End If
+
         End If
 
     End Sub
 
     Private Sub movePowerPointToLastSlide()
         If (presentation IsNot Nothing) Then
-            presentation.SlideShowWindow.View.Last()
+            If (getCurrentSlidePosition() < getNumberOfSlidesInPresentation()) Then
+                presentation.SlideShowWindow.View.Last()
+                logCurrentSlideNumberShown()
+            Else
+                PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "You are currently viewing the Last Slide Num Only: " & getCurrentSlidePosition() & vbCrLf & vbCrLf)
+            End If
+
+        End If
+    End Sub
+
+    Private Sub movePowerPointToSlideNum(slideNumToGoIntLocal As Integer)
+        If (presentation IsNot Nothing) Then
+            presentation.SlideShowWindow.View.GotoSlide(slideNumToGoIntLocal)
+            logCurrentSlideNumberShown()
         End If
     End Sub
 
     Private Sub displayWhiteBackGround()
+        If (presentation IsNot Nothing) Then
+            presentation.SlideShowWindow.View.State = PowerPoint.PpSlideShowState.ppSlideShowWhiteScreen
+            logCurrentSlideNumberShown()
+        End If
 
     End Sub
 
     Private Sub displayBlackBackGround()
+        If (presentation IsNot Nothing) Then
+            presentation.SlideShowWindow.View.State = PowerPoint.PpSlideShowState.ppSlideShowBlackScreen
+            logCurrentSlideNumberShown()
+        End If
+    End Sub
+
+    Private Sub goToTheSlideNum(pptControllingCommandLocal As String)
+        Dim slideNumToGoStr As String
+        Dim slideNumToGoInt As Integer
+
+
+        slideNumToGoStr = pptControllingCommandLocal.Substring(1, 3)
+        slideNumToGoInt = CInt(slideNumToGoStr)
+
+        If (presentation IsNot Nothing) Then
+            If (slideNumToGoInt = 1) Then
+                movePowerPointToFirstSlide()
+            ElseIf (slideNumToGoInt = getNumberOfSlidesInPresentation()) Then
+                movePowerPointToLastSlide()
+            ElseIf (slideNumToGoInt > getNumberOfSlidesInPresentation()) Then
+                PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "The slide Number To Go is > Total Number of slides. So Moving to Last Slide: " & getCurrentSlidePosition() & vbCrLf & vbCrLf)
+                movePowerPointToLastSlide()
+            Else
+                movePowerPointToSlideNum(slideNumToGoInt)
+            End If
+        End If
+
 
     End Sub
 
+    Private Function getNumberOfSlidesInPresentation() As Integer
+        If (presentation IsNot Nothing) Then
+            Return presentation.Slides.Count()
+        Else
+            Return 0
+        End If
+    End Function
 
-  
+    Private Function getCurrentSlidePosition() As Integer
+        If (presentation IsNot Nothing) Then
+            Return presentation.SlideShowWindow.View.CurrentShowPosition
+        Else
+            Return 0
+        End If
+    End Function
+
+    Private Sub logCurrentSlideNumberShown()
+        PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Current Slide No Showing : " & getCurrentSlidePosition() & vbCrLf & vbCrLf)
+    End Sub
 
 
 End Class
