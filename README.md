@@ -26,14 +26,18 @@ RAM: 8GB
 Using the Framework 32Feet.Net from "In The Hand Ltd":
 ------------------------------------------------------
 This application is developed on top of the 32Feet.net bluetooth framework version 3.5.0.0.
+
 Framework: 32feet.NET - Personal Area Networking for .NET
+
 WebSite: http://32feet.codeplex.com/
 
 
 For developing the application:
 -------------------------------
 Make sure the PC is connected to Internet.
+
 1. Go To Visual Studio Express 2013 -> PROJECT menu -> Manage NuGet Packages -> Install 32feet.NET NuGet Packages
+
 2. Go To Visual Studio Express 2013 -> PROJECT menu -> Add Reference -> COM -> Type Libraries -> Search for "Microsoft Office 14.0 Object Library" version 2.5 and -> check it with check box -> add this as reference.
 
 
@@ -42,10 +46,14 @@ For installing the Power Blue application: Prerequistes
 Make sure the PC is connected to Internet for downloading 32feet.net.
 
 First Install: 32Feet.Net
+
 1. Go To http://32feet.codeplex.com/
+
 2. Download the 32feet.Net set up zip for 3.5.0.0 or higher. 
    http://32feet.codeplex.com/releases/view/88941
+
 3. Unzip the Download & install 32feet.net software by running the setup.exe file.
+
 
 Second Install: PowerBlue Server Application
 
