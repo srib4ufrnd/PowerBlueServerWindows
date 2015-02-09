@@ -51,6 +51,14 @@ First Bluetooth:
 1.Bluetooth Adapter should be enabled and Bluetooth should be switched on in Device. 
   Check this from Devicemanager in windows.
 
+2. For clients to detect your windows machine, make sure that in 
+
+   Bluetooth settings -> Options > Discovery -> check the box "Allow bluetooth devices to find this computer"
+   
+   Bluetooth settings -> Options > Connections -> check the box "Allow bluetooth devices to connect to this computer"
+   
+   Bluetooth settings -> Options > Connections -> check the box "Alert me when a new bluetooth device wants to connect"
+
 
 Second Install: 32Feet.Net
 
