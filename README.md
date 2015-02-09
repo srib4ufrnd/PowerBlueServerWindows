@@ -45,7 +45,14 @@ For installing the Power Blue application: Prerequistes
 -------------------------------------------------------
 Make sure the PC is connected to Internet for downloading 32feet.net.
 
-First Install: 32Feet.Net
+
+First Bluetooth:
+
+1.Bluetooth Adapter should be enabled and Bluetooth should be switched on in Device. 
+  Check this from Devicemanager in windows.
+
+
+Second Install: 32Feet.Net
 
 1. Go To http://32feet.codeplex.com/
 
@@ -55,5 +62,5 @@ First Install: 32Feet.Net
 3. Unzip the Download & install 32feet.net software by running the setup.exe file.
 
 
-Second Install: PowerBlue Server Application
+Third Install: PowerBlue Server Application
 
