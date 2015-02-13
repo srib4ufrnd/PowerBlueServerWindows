@@ -80,11 +80,11 @@ Partial Class PowerBlueServerApp
         Me.CopyRightLabel.AutoSize = True
         Me.CopyRightLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CopyRightLabel.ForeColor = System.Drawing.SystemColors.HighlightText
-        Me.CopyRightLabel.Location = New System.Drawing.Point(26, 373)
+        Me.CopyRightLabel.Location = New System.Drawing.Point(12, 373)
         Me.CopyRightLabel.Name = "CopyRightLabel"
-        Me.CopyRightLabel.Size = New System.Drawing.Size(381, 17)
+        Me.CopyRightLabel.Size = New System.Drawing.Size(408, 17)
         Me.CopyRightLabel.TabIndex = 6
-        Me.CopyRightLabel.Text = "@Copy Right: All Rights Rserved To Albert Einstein"
+        Me.CopyRightLabel.Text = "@Copy Right: All Rights Rserved To Sreedhar Reddy V"
         Me.CopyRightLabel.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         '
         'ClearLogsButton
@@ -164,8 +164,9 @@ Partial Class PowerBlueServerApp
         Me.Controls.Add(Me.PowerBlueTitle)
         Me.Controls.Add(Me.StartServerButton)
         Me.Controls.Add(Me.BrowsePptButton)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.MaximizeBox = False
         Me.Name = "PowerBlueServerApp"
         Me.Text = "Power Blue Server"
         Me.ResumeLayout(False)

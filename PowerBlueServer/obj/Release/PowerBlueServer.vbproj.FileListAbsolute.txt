@@ -36,7 +36,6 @@ D:\Official\TizApp\PowerBlueServerWindows\PowerBlueServer\bin\Release\PowerBlueS
 D:\Official\TizApp\PowerBlueServerWindows\PowerBlueServer\bin\Release\PowerBlueServer.xml
 D:\Official\TizApp\PowerBlueServerWindows\PowerBlueServer\bin\Release\InTheHand.Net.Personal.dll
 D:\Official\TizApp\PowerBlueServerWindows\PowerBlueServer\bin\Release\InTheHand.Net.Personal.xml
-D:\Official\TizApp\PowerBlueServerWindows\PowerBlueServer\obj\Release\PowerBlueServer.vbprojResolveAssemblyReference.cache
 D:\Official\TizApp\PowerBlueServerWindows\PowerBlueServer\obj\Release\PowerBlueServer.PowerBlueServerApp.resources
 D:\Official\TizApp\PowerBlueServerWindows\PowerBlueServer\obj\Release\PowerBlueServer.Resources.resources
 D:\Official\TizApp\PowerBlueServerWindows\PowerBlueServer\obj\Release\PowerBlueServer.vbproj.GenerateResource.Cache
