@@ -78,13 +78,13 @@ Partial Class PowerBlueServerApp
         'CopyRightLabel
         '
         Me.CopyRightLabel.AutoSize = True
-        Me.CopyRightLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CopyRightLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CopyRightLabel.ForeColor = System.Drawing.SystemColors.HighlightText
-        Me.CopyRightLabel.Location = New System.Drawing.Point(12, 373)
+        Me.CopyRightLabel.Location = New System.Drawing.Point(72, 377)
         Me.CopyRightLabel.Name = "CopyRightLabel"
-        Me.CopyRightLabel.Size = New System.Drawing.Size(408, 17)
+        Me.CopyRightLabel.Size = New System.Drawing.Size(292, 13)
         Me.CopyRightLabel.TabIndex = 6
-        Me.CopyRightLabel.Text = "@Copy Right: All Rights Rserved To Sreedhar Reddy V"
+        Me.CopyRightLabel.Text = "Developer: Sreedhar Reddy V    Mail: Srib4ufrnd@gmail.com"
         Me.CopyRightLabel.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         '
         'ClearLogsButton
@@ -153,7 +153,7 @@ Partial Class PowerBlueServerApp
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSize = True
-        Me.BackColor = System.Drawing.Color.DeepSkyBlue
+        Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(80, Byte), Integer), CType(CType(179, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(446, 399)
         Me.Controls.Add(Me.StopServerButton)
         Me.Controls.Add(Me.LogsLabel)
@@ -168,7 +168,7 @@ Partial Class PowerBlueServerApp
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.Name = "PowerBlueServerApp"
-        Me.Text = "Power Blue Server"
+        Me.Text = "PowerBlue Server"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

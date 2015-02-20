@@ -54,14 +54,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="PowerBlueServer.exe" size="419328">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="PowerBlueServer.exe" size="419840">
       <assemblyIdentity name="PowerBlueServer" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>OwUewsZjMU2tmdb8ry0NewBJeBmQrL6Ymr99Xz8fuDY=</dsig:DigestValue>
+        <dsig:DigestValue>n/DkN8eoej4QchChajRUUoVH3K7x2TofL5tCLFKjBT4=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
