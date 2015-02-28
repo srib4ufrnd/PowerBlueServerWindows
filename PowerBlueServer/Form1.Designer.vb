@@ -34,6 +34,10 @@ Partial Class PowerBlueServerApp
         Me.PowerBlueLogTextBox = New System.Windows.Forms.TextBox()
         Me.PowerBlueServerBackgroundWorker = New System.ComponentModel.BackgroundWorker()
         Me.StopServerButton = New System.Windows.Forms.Button()
+        Me.Step1 = New System.Windows.Forms.Label()
+        Me.Step2 = New System.Windows.Forms.Label()
+        Me.Step3 = New System.Windows.Forms.Label()
+        Me.ServerHelp = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'BrowsePptButton
@@ -148,6 +152,46 @@ Partial Class PowerBlueServerApp
         Me.StopServerButton.Text = "Stop Server"
         Me.StopServerButton.UseVisualStyleBackColor = True
         '
+        'Step1
+        '
+        Me.Step1.AutoSize = True
+        Me.Step1.ForeColor = System.Drawing.SystemColors.ButtonHighlight
+        Me.Step1.Location = New System.Drawing.Point(63, 120)
+        Me.Step1.Name = "Step1"
+        Me.Step1.Size = New System.Drawing.Size(41, 13)
+        Me.Step1.TabIndex = 11
+        Me.Step1.Text = "Step: 1"
+        '
+        'Step2
+        '
+        Me.Step2.AutoSize = True
+        Me.Step2.ForeColor = System.Drawing.SystemColors.ButtonHighlight
+        Me.Step2.Location = New System.Drawing.Point(204, 120)
+        Me.Step2.Name = "Step2"
+        Me.Step2.Size = New System.Drawing.Size(41, 13)
+        Me.Step2.TabIndex = 12
+        Me.Step2.Text = "Step: 2"
+        '
+        'Step3
+        '
+        Me.Step3.AutoSize = True
+        Me.Step3.ForeColor = System.Drawing.SystemColors.ButtonHighlight
+        Me.Step3.Location = New System.Drawing.Point(349, 120)
+        Me.Step3.Name = "Step3"
+        Me.Step3.Size = New System.Drawing.Size(41, 13)
+        Me.Step3.TabIndex = 13
+        Me.Step3.Text = "Step: 3"
+        '
+        'ServerHelp
+        '
+        Me.ServerHelp.AutoSize = True
+        Me.ServerHelp.ForeColor = System.Drawing.SystemColors.ButtonHighlight
+        Me.ServerHelp.Location = New System.Drawing.Point(396, 9)
+        Me.ServerHelp.Name = "ServerHelp"
+        Me.ServerHelp.Size = New System.Drawing.Size(38, 13)
+        Me.ServerHelp.TabIndex = 15
+        Me.ServerHelp.Text = "Help ?"
+        '
         'PowerBlueServerApp
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -155,6 +199,10 @@ Partial Class PowerBlueServerApp
         Me.AutoSize = True
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(80, Byte), Integer), CType(CType(179, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(446, 399)
+        Me.Controls.Add(Me.ServerHelp)
+        Me.Controls.Add(Me.Step3)
+        Me.Controls.Add(Me.Step2)
+        Me.Controls.Add(Me.Step1)
         Me.Controls.Add(Me.StopServerButton)
         Me.Controls.Add(Me.LogsLabel)
         Me.Controls.Add(Me.VersionningLabel)
@@ -184,5 +232,9 @@ Partial Class PowerBlueServerApp
     Friend WithEvents PowerBlueLogTextBox As System.Windows.Forms.TextBox
     Friend WithEvents PowerBlueServerBackgroundWorker As System.ComponentModel.BackgroundWorker
     Friend WithEvents StopServerButton As System.Windows.Forms.Button
+    Friend WithEvents Step1 As System.Windows.Forms.Label
+    Friend WithEvents Step2 As System.Windows.Forms.Label
+    Friend WithEvents Step3 As System.Windows.Forms.Label
+    Friend WithEvents ServerHelp As System.Windows.Forms.Label
 
 End Class

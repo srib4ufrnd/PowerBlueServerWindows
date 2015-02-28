@@ -43,4 +43,3 @@ D:\Official\TizApp\PowerBlueServerWindows\PowerBlueServer\bin\Release\PowerBlueS
 D:\Official\TizApp\PowerBlueServerWindows\PowerBlueServer\bin\Release\PowerBlueServer.application
 D:\Official\TizApp\PowerBlueServerWindows\PowerBlueServer\obj\Release\PowerBlueServer.exe.manifest
 D:\Official\TizApp\PowerBlueServerWindows\PowerBlueServer\obj\Release\PowerBlueServer.application
-D:\Official\TizApp\PowerBlueServerWindows\PowerBlueServer\obj\Release\PowerBlueServer.vbprojResolveAssemblyReference.cache

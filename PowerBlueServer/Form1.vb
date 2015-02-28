@@ -40,34 +40,34 @@ Public Class PowerBlueServerApp
 
             If (pptFileName IsNot Nothing) Then
 
-                PowerBlueLogTextBox.AppendText(vbCrLf & "PPT File Selected: " & pptFileName)
+                PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "PPT File Selected: " & pptFileName & vbCrLf & vbCrLf)
 
                 If pptFileName.EndsWith(".pptx") Then
-                    PowerBlueLogTextBox.AppendText(vbCrLf & "The Seclected File is Valid Presentation: .PPTX.")
+                    PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "The Seclected File is Valid Presentation: .PPTX." & vbCrLf & vbCrLf)
                     StartServerButton.Enabled = True
                     'MsgBox("The Selected file is PPTX")
                 ElseIf pptFileName.EndsWith(".ppt") Then
-                    PowerBlueLogTextBox.AppendText(vbCrLf & "The Seclected File is Valid Presentation: .PPT.")
+                    PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "The Seclected File is Valid Presentation: .PPT." & vbCrLf & vbCrLf)
                     StartServerButton.Enabled = True
                     'MsgBox("The Selected file is PPT")
                 Else
                     StartServerButton.Enabled = False
                     StopServerButton.Enabled = False
                     MsgBox("The Selected File is Neither PPTX nor PPT.")
-                    PowerBlueLogTextBox.AppendText(vbCrLf & "The Selected File is invalid presenation: Neither .PPTX nor .PPT.")
+                    PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "The Selected File is invalid presenation: Neither .PPTX nor .PPT." & vbCrLf & vbCrLf)
                     'MsgBox("The Selected File is Neither PPTX nor PPT.Please select a Valid Presentation file with extension PPT or PPTX")
                 End If
             ElseIf (pptFileName Is Nothing) Then
                 StartServerButton.Enabled = False
                 StopServerButton.Enabled = False
-                MsgBox("No Presentation is selecetd. Please Select a valid PPTX nor PPT.")
-                PowerBlueLogTextBox.AppendText(vbCrLf & "No Presentation is selecetd. Please Select a valid PPTX nor PPT.")
+                MsgBox("No Presentation is selecetd. Please Select a valid PPTX or PPT.")
+                PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "No Presentation is selecetd. Please Select a valid PPTX or PPT." & vbCrLf & vbCrLf)
             End If
         ElseIf answer = MsgBoxResult.No Then
             StartServerButton.Enabled = False
             StopServerButton.Enabled = False
             MsgBox("The Server cannot be Started without closing all the current running Power Point applications.")
-            PowerBlueLogTextBox.AppendText(vbCrLf & "The Server cannot be Started without closing all the current running Power Point applications.")
+            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "The Server cannot be Started without closing all the current running Power Point applications." & vbCrLf & vbCrLf)
         End If
 
     End Sub
@@ -100,8 +100,16 @@ Public Class PowerBlueServerApp
 
             'If True then the server will be closed
             'If False then the server will only be rolled back.
-            rollBackServerToInitialOrClose(True)
-            
+            'rollBackServerToInitialOrClose(True)
+            'The below END command will terminate this application completly.
+            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Major Problem occured.  So terminating the server. Please restart the server." & vbCrLf & vbCrLf)
+
+            closeAlreadyOpenedPowerPointApp()
+
+            MsgBox("Ooops! Terminating the program   :-(" & vbCrLf & vbCrLf & "Possible Reasons:" & vbCrLf & vbCrLf & "1. User Stoped the server. Force close." & vbCrLf & vbCrLf & "2. Client disconnected from the server." & vbCrLf & vbCrLf & "3. Major Problem occured. So Force closing the server.")
+            'Completly closes the application.
+            End
+
         End If
 
 
@@ -183,12 +191,9 @@ Public Class PowerBlueServerApp
         If (e.Error IsNot Nothing) Then
             ' There was an error during the operation. 
             Dim msg As String = String.Format("An error occurred: {0}", e.Error.Message)
-            MessageBox.Show(msg)
-            PowerBlueLogTextBox.AppendText(vbCrLf & "Power Blue Server Stopped.")
-            StopServerButton.Enabled = False
-            StartServerButton.Enabled = False
-            BrowsePptButton.Enabled = True
-            exitPowerPoint()
+            'MessageBox.Show(msg)
+            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Power Blue Server Stopped." & vbCrLf & vbCrLf)
+            rollBackServerToInitialOrClose(True)
 
         ElseIf e.Cancelled Then
             ' Next, handle the case where the user canceled the  
@@ -198,12 +203,9 @@ Public Class PowerBlueServerApp
             ' flag may not have been set, even though 
             ' CancelAsync was called.
             ' The user canceled the operation.
-            MessageBox.Show("Operation was canceled")
-            PowerBlueLogTextBox.AppendText(vbCrLf & "Power Blue Server Stopped.")
-            StopServerButton.Enabled = False
-            StartServerButton.Enabled = False
-            BrowsePptButton.Enabled = True
-            exitPowerPoint()
+            'MessageBox.Show("Operation was canceled")
+            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Power Blue Server Stopped." & vbCrLf & vbCrLf)
+            rollBackServerToInitialOrClose(True)
         Else
             ' Finally, handle the case where the operation succeeded.
             ' The operation completed normally. 
@@ -212,7 +214,7 @@ Public Class PowerBlueServerApp
         End If
 
 
-        
+
 
     End Sub
 
@@ -341,22 +343,24 @@ Public Class PowerBlueServerApp
 
     End Sub
 
-   
+
 
 
     Private Sub startBluetoothServerInANewThread()
 
+        'MsgBox("startBluetoothServerInANewThread: Inside Method")
 
-        PowerBlueLogTextBox.AppendText(vbCrLf & "Power Blue Server Started...")
+
+        PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Power Blue Server Started..." & vbCrLf & vbCrLf)
         StartServerButton.Enabled = False
         BrowsePptButton.Enabled = False
         StopServerButton.Enabled = True
 
 
-        
+
         'Dim received(1024) As Byte
         Dim received(3) As Byte
-        received = Nothing
+        'received = Nothing
 
 
 
@@ -377,18 +381,22 @@ Public Class PowerBlueServerApp
         Try
 
             If (blueToothClient IsNot Nothing AndAlso blueToothClient.Connected) Then
-                'MsgBox("Client Connected")
-                PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Client " & blueToothClient.RemoteMachineName & " Connected" & vbCrLf & vbCrLf)
+                'MsgBox("startBluetoothServerInANewThread: Client: " & blueToothClient.RemoteMachineName & " :Connected")
+                PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Client: " & blueToothClient.RemoteMachineName & " :Connected" & vbCrLf & vbCrLf)
 
                 streamRecievedFromBtClient = blueToothClient.GetStream()
                 If (streamRecievedFromBtClient IsNot Nothing) Then
+                    'MsgBox("startBluetoothServerInANewThread: Inside If Loop: Begin Read stream")
                     streamRecievedFromBtClient.BeginRead(received, 0, received.Length, New AsyncCallback(AddressOf ReadCallBack), received)
                 End If
             Else
+                'MsgBox("startBluetoothServerInANewThread: Inside Else Loop: blueToothClient is nothing")
                 rollBackServerToInitialOrClose(True)
 
             End If
         Catch ex As Exception
+            'MsgBox("startBluetoothServerInANewThread: Inside Catch: Got Exception")
+            'MsgBox("Exception Occured" & vbCrLf & ex.Message)
             rollBackServerToInitialOrClose(True)
         End Try
 
@@ -399,51 +407,79 @@ Public Class PowerBlueServerApp
 
     Private Sub ReadCallBack(ar As IAsyncResult)
 
+        'MsgBox("ReadCallBack: Inside Method")
+
         Try
 
             'Dim received(1024) As Byte
-            Dim received(3) As Byte
+            Dim receivedLocal(3) As Byte
             Dim pptControllingCommandFull As String
+            Dim pptControllingCommandTrim As String
             Dim pptControllingCommand As String
             pptControllingCommandFull = Nothing
-            received = Nothing
+            'received = Nothing
 
 
             If (blueToothClient IsNot Nothing AndAlso blueToothClient.Connected) Then
 
                 If ((ar IsNot Nothing) AndAlso ar.IsCompleted) Then
 
-                    received = ar.AsyncState
-                    pptControllingCommandFull = System.Text.UTF8Encoding.ASCII.GetString(received)
+                    receivedLocal = ar.AsyncState
+                    pptControllingCommandFull = System.Text.UTF8Encoding.ASCII.GetString(receivedLocal)
+                    'MsgBox("ReadCallBack: Inside Method: Asc Encode pptControllingCommand = " & AscEncode(pptControllingCommandFull) & ":")
+                    'MsgBox("ReadCallBack: Inside Method: Chr Encode pptControllingCommand = " & ChrEncode(pptControllingCommandFull) & ":")
                     'The pptControllingCommandFull is coming as string with 1024 bytes. SO i need to trim the string to get the valid string length
-                    If (pptControllingCommandFull IsNot Nothing) Then
-                        pptControllingCommand = pptControllingCommandFull.Trim()
 
+                    If (Not (String.IsNullOrEmpty(pptControllingCommandFull)) AndAlso (pptControllingCommandFull.Length() = 4) AndAlso Not (AscEncode(pptControllingCommandFull).StartsWith("0000")) AndAlso Not (AscEncode(pptControllingCommandFull).EndsWith("0000"))) Then
+                        'MsgBox("ReadCallBack: Inside Method: pptControllingCommandFull = " & pptControllingCommandFull & ":")
+                        pptControllingCommandTrim = pptControllingCommandFull.Trim()
+                        'MsgBox("ReadCallBack: Inside Method: pptControllingCommandFullTrim = " & pptControllingCommandTrim & ":")
+                        pptControllingCommand = pptControllingCommandTrim.Replace("\xA0", String.Empty)
+                        'MsgBox("ReadCallBack: Inside Method: pptControllingCommand = " & pptControllingCommand & ":")
                         controlPowerPointWithCommand(pptControllingCommand)
-                    End If
 
 
-                    If (blueToothClient IsNot Nothing AndAlso blueToothClient.Connected) Then
 
-                        If (streamRecievedFromBtClient IsNot Nothing) Then
+                        If (blueToothClient IsNot Nothing AndAlso blueToothClient.Connected) Then
 
-                            streamRecievedFromBtClient.Flush()
-                            received = Nothing
-                            streamRecievedFromBtClient.BeginRead(received, 0, received.Length, New AsyncCallback(AddressOf ReadCallBack), received)
+                            If (streamRecievedFromBtClient IsNot Nothing) Then
 
+                                streamRecievedFromBtClient.Flush()
+                                'received = Nothing
+                                'MsgBox("ReadCallBack: Inside If Loop: Begin Read stream")
+                                Dim receivedLocalAnother(3) As Byte
+                                streamRecievedFromBtClient.BeginRead(receivedLocalAnother, 0, receivedLocalAnother.Length, New AsyncCallback(AddressOf ReadCallBack), receivedLocalAnother)
+                            Else
+                                'MsgBox("ReadCallBack: Inside Else Loop0: blueToothClient is nothing To Recurse")
+                                'rollBackServerToInitialOrClose(False)
+                                rollBackServerToInitialOrClose(True)
 
+                            End If
+                        Else
+                            'MsgBox("ReadCallBack: Inside Else Loop1: blueToothClient is nothing To Recurse")
+                            'rollBackServerToInitialOrClose(False)
+                            rollBackServerToInitialOrClose(True)
                         End If
                     Else
+                        'MsgBox("ReadCallBack: Inside Else Loop2: blueToothClient is nothing To Recurse")
+                        'rollBackServerToInitialOrClose(False)
                         rollBackServerToInitialOrClose(True)
-                    End If
 
+                    End If
+                Else
+                    'MsgBox("ReadCallBack: Inside Else Loop1: blueToothClient is nothing")
+                    'rollBackServerToInitialOrClose(False)
+                    rollBackServerToInitialOrClose(True)
 
                 End If
             Else
+                'MsgBox("ReadCallBack: Inside Else Loop2: blueToothClient is nothing")
+                'rollBackServerToInitialOrClose(False)
                 rollBackServerToInitialOrClose(True)
             End If
 
         Catch ex As Exception
+            'MsgBox("ReadCallBack: Inside Catch: Got Exception")
             'MsgBox("Exception Occured" & vbCrLf & ex.Message)
             rollBackServerToInitialOrClose(True)
 
@@ -544,6 +580,7 @@ Public Class PowerBlueServerApp
 
             'MsgBox("Power Point Already Stopped. No Power Point Object To close")
             PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Power Point Already Stopped. No Power Point Object To close" & vbCrLf & vbCrLf)
+            rollBackServerToInitialOrClose(True)
         End Try
     End Sub
 
@@ -579,10 +616,14 @@ Public Class PowerBlueServerApp
             'MessageBox.Show("Stack Trace: " & vbCrLf & ex.StackTrace)
 
             'MsgBox("Power Point Already Stopped. No Power Point Object To close")
-            'PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Power Point Already Stopped. No Power Point Object To close" & vbCrLf & vbCrLf)
+            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Power Point Already Stopped. No Power Point Object To close" & vbCrLf & vbCrLf)
+            'rollBackServerToInitialOrClose(True)
+            'The below END command will terminate this application completly.
+            MsgBox("Ooops! Terminating the program   :-(" & vbCrLf & vbCrLf & "Possible Reasons:" & vbCrLf & vbCrLf & "1. User Stoped the server. Force close." & vbCrLf & vbCrLf & "2. Client disconnected from the server." & vbCrLf & vbCrLf & "3. Power Point Closed. No Power Point Object To Operate." & vbCrLf & vbCrLf & "4. User forcely interrupted/closed the PowerPoint/SlideShow." & vbCrLf & vbCrLf & "5. Major Problem occured. So Force closing the server.")
+            End
         End Try
 
-        
+
 
 
     End Sub
@@ -603,6 +644,8 @@ Public Class PowerBlueServerApp
 
             'MsgBox("Power Point Already Stopped. No Power Point Object To Operate")
             PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Power Point Already Stopped. No Power Point Object To Operate" & vbCrLf & vbCrLf)
+            rollBackServerToInitialOrClose(True)
+
         End Try
     End Sub
 
@@ -625,6 +668,7 @@ Public Class PowerBlueServerApp
 
             'MsgBox("Power Point Already Stopped. No Power Point Object To Operate")
             PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Power Point Already Stopped. No Power Point Object To Operate" & vbCrLf & vbCrLf)
+            rollBackServerToInitialOrClose(True)
         End Try
     End Sub
 
@@ -644,6 +688,7 @@ Public Class PowerBlueServerApp
 
             'MsgBox("Power Point Already Stopped. No Power Point Object To Operate")
             PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Power Point Already Stopped. No Power Point Object To Operate" & vbCrLf & vbCrLf)
+            rollBackServerToInitialOrClose(True)
         End Try
     End Sub
 
@@ -667,6 +712,7 @@ Public Class PowerBlueServerApp
 
             'MsgBox("Power Point Already Stopped. No Power Point Object To Operate")
             PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Power Point Already Stopped. No Power Point Object To Operate" & vbCrLf & vbCrLf)
+            rollBackServerToInitialOrClose(True)
         End Try
     End Sub
 
@@ -690,6 +736,7 @@ Public Class PowerBlueServerApp
 
             'MsgBox("Power Point Already Stopped. No Power Point Object To Operate")
             PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Power Point Already Stopped. No Power Point Object To Operate" & vbCrLf & vbCrLf)
+            rollBackServerToInitialOrClose(True)
         End Try
     End Sub
 
@@ -714,6 +761,7 @@ Public Class PowerBlueServerApp
 
             'MsgBox("Power Point Already Stopped. No Power Point Object To Operate")
             PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Power Point Already Stopped. No Power Point Object To Operate" & vbCrLf & vbCrLf)
+            rollBackServerToInitialOrClose(True)
         End Try
     End Sub
 
@@ -738,6 +786,7 @@ Public Class PowerBlueServerApp
 
             'MsgBox("Power Point Already Stopped. No Power Point Object To Operate")
             PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Power Point Already Stopped. No Power Point Object To Operate" & vbCrLf & vbCrLf)
+            rollBackServerToInitialOrClose(True)
         End Try
     End Sub
 
@@ -757,6 +806,7 @@ Public Class PowerBlueServerApp
 
             'MsgBox("Power Point Already Stopped. No Power Point Object To Operate")
             PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Power Point Already Stopped. No Power Point Object To Operate" & vbCrLf & vbCrLf)
+            rollBackServerToInitialOrClose(True)
         End Try
     End Sub
 
@@ -776,6 +826,7 @@ Public Class PowerBlueServerApp
 
             'MsgBox("Power Point Already Stopped. No Power Point Object To Operate")
             PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Power Point Already Stopped. No Power Point Object To Operate" & vbCrLf & vbCrLf)
+            rollBackServerToInitialOrClose(True)
         End Try
 
     End Sub
@@ -796,6 +847,7 @@ Public Class PowerBlueServerApp
 
             'MsgBox("Power Point Already Stopped. No Power Point Object To Operate")
             PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Power Point Already Stopped. No Power Point Object To Operate" & vbCrLf & vbCrLf)
+            rollBackServerToInitialOrClose(True)
         End Try
     End Sub
 
@@ -815,6 +867,7 @@ Public Class PowerBlueServerApp
 
             'MsgBox("Power Point Already Stopped. No Power Point Object To Operate")
             PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Power Point Already Stopped. No Power Point Object To Operate" & vbCrLf & vbCrLf)
+            rollBackServerToInitialOrClose(True)
         End Try
     End Sub
 
@@ -851,6 +904,7 @@ Public Class PowerBlueServerApp
 
             'MsgBox("Power Point Already Stopped. No Power Point Object To Operate")
             PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Power Point Already Stopped. No Power Point Object To Operate" & vbCrLf & vbCrLf)
+            rollBackServerToInitialOrClose(True)
         End Try
 
     End Sub
@@ -872,6 +926,7 @@ Public Class PowerBlueServerApp
 
             'MsgBox("Power Point Already Stopped. No Power Point Object To Operate")
             PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Power Point Already Stopped. No Power Point Object To Operate" & vbCrLf & vbCrLf)
+            rollBackServerToInitialOrClose(True)
         End Try
     End Function
 
@@ -892,6 +947,7 @@ Public Class PowerBlueServerApp
 
             'MsgBox("Power Point Already Stopped. No Power Point Object To Operate")
             PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Power Point Already Stopped. No Power Point Object To Operate" & vbCrLf & vbCrLf)
+            rollBackServerToInitialOrClose(True)
         End Try
     End Function
 
@@ -908,13 +964,16 @@ Public Class PowerBlueServerApp
 
             'MsgBox("Power Point Already Stopped. No Power Point Object To Operate")
             PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Power Point Already Stopped. No Power Point Object To Operate" & vbCrLf & vbCrLf)
+            rollBackServerToInitialOrClose(True)
         End Try
     End Sub
 
     Private Sub rollBackServerToInitialOrClose(Mode As Boolean)
         Try
             'MsgBox("Major Problem occured. So restarting the server to original mode")
-            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Major Problem occured. So restarting the server to original mode" & vbCrLf & vbCrLf)
+            'PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Major Problem occured. So restarting the server to original mode" & vbCrLf & vbCrLf)
+            'MsgBox("Major Problem occured. So terminating the server. Please restart the server.")
+            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Major Problem occured.  So terminating the server. Please restart the server." & vbCrLf & vbCrLf)
 
             closeAlreadyOpenedPowerPointApp()
 
@@ -936,7 +995,7 @@ Public Class PowerBlueServerApp
                 streamRecievedFromBtClient = Nothing
             End If
 
-           
+
         Catch ex As Exception
             ' Show the exception's message.
             MessageBox.Show(ex.Message)
@@ -962,13 +1021,54 @@ Public Class PowerBlueServerApp
             If (Mode = True) Then
 
                 'The below END command will terminate this application completly.
-                MsgBox("Ooops! Terminating the program   :-(" & vbCrLf & vbCrLf & "Possible Reasons:" & vbCrLf & vbCrLf & "1. User Stoped the server. Force close." & vbCrLf & vbCrLf & "2. Client disconnected from the server." & vbCrLf & vbCrLf & "3. Major Problem occured. So Force closing the server.")
+                MsgBox("Ooops! Terminating the program   :-(" & vbCrLf & vbCrLf & "Possible Reasons:" & vbCrLf & vbCrLf & "1. User Stoped the server. Force close." & vbCrLf & vbCrLf & "2. Client disconnected from the server." & vbCrLf & vbCrLf & "3. Power Point Closed. No Power Point Object To Operate." & vbCrLf & vbCrLf & "4. User forcely interrupted/closed the PowerPoint/SlideShow." & vbCrLf & vbCrLf & "5. Major Problem occured. So Force closing the server.")
                 End
-            End If
+            ElseIf (Mode = False) Then
+                Dim answer As MsgBoxResult
 
+                answer = MsgBox("Client Got Disconnected. Do you want to quit server ?", MsgBoxStyle.YesNo)
+                If answer = MsgBoxResult.Yes Then
+                    End
+                ElseIf answer = MsgBoxResult.No Then
+                    MsgBox("The server will be restarted to original mode")
+                    StartServerButton.Enabled = False
+                    StopServerButton.Enabled = False
+                    BrowsePptButton.Enabled = True
+                End If
+            End If
 
         End Try
     End Sub
 
 
+    Function AscEncode(str)
+        Dim i
+        Dim sAscii
+
+        sAscii = ""
+        For i = 1 To Len(str)
+            sAscii = sAscii + CStr(Hex(Asc(Mid(str, i, 1))))
+            'MsgBox("AscEncode: Inside Method: str =" & str & "Mid(str, i, 1)" & Mid(str, i, 1) & "Asc(Mid(str, i, 1))" & Asc(Mid(str, i, 1)) & "Hex(Asc(Mid(str, i, 1)))" & Hex(Asc(Mid(str, i, 1))) & "CStr(Hex(Asc(Mid(str, i, 1))))" & CStr(Hex(Asc(Mid(str, i, 1)))) & "sAscii" & sAscii)
+        Next
+
+        AscEncode = sAscii
+    End Function
+
+
+    Function ChrEncode(str)
+        Dim i
+        Dim sStr
+
+        sStr = ""
+        For i = 1 To Len(str) Step 2
+            sStr = sStr + Chr(CLng("&H" & Mid(str, i, 2)))
+        Next
+
+        ChrEncode = sStr
+    End Function
+
+
+    Private Sub ServerHelp_Click(sender As Object, e As EventArgs) Handles ServerHelp.Click
+        MsgBox("                                                  Instructions To Run Server                                                 " & vbCrLf & vbCrLf & "1. Make sure 32feet.net is installed.Please find download link below." & vbCrLf & "    http://32feet.codeplex.com/releases/view/88941 " & vbCrLf & vbCrLf & "2. Make sure that the bluetooth adapter is available in your machine." & vbCrLf & vbCrLf & "3.Make sure that the bluetooth is turned on in your machine." & vbCrLf & vbCrLf & "4.Make sure that the bluetooth adapter is turned on in your machine via Bluetooth Settings." & vbCrLf & vbCrLf & "5. Make sure your machine is made visible to other devices via bluetooth settings." & vbCrLf & vbCrLf & "6.  Make sure your machine allows bluetooth devices to connect via bluetooth settings." & vbCrLf & vbCrLf & "7. For more info please refer to the installation instructions in github link below." & vbCrLf & "    http://bit.ly/1zkKX29")
+    End Sub
 End Class
