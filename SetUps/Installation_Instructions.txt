@@ -1,18 +1,24 @@
 							Instructions To Run Server
-#############################################################################################
-1. Make sure 32feet.net is installed.Please find download link below.
+##################################################################################################
+
+1. Make sure that the bluetooth adapter is available in your machine.
+
+2. Make sure that the bluetooth is turned on in your machine.
+
+3. Make sure that the bluetooth adapter is turned on in your machine via Bluetooth Settings.
+
+4. Make sure your machine is made visible to other devices via bluetooth settings.
+
+5. Make sure your machine allows bluetooth devices to connect via bluetooth settings.
+
+6. [Optional] In Case of any strange errors, installing 32feet.net might solve.
+   Please find download link below.
    http://32feet.codeplex.com/releases/view/88941
    
-2. Make sure that the bluetooth adapter is available in your machine.
-
-3.Make sure that the bluetooth is turned on in your machine.
-
-4.Make sure that the bluetooth adapter is turned on in your machine via Bluetooth Settings.
-
-5. Make sure your machine is made visible to other devices via bluetooth settings.
-
-6.  Make sure your machine allows bluetooth devices to connect via bluetooth settings.
-
 7. For more info please refer to the installation instructions in github link below.
    http://bit.ly/1zkKX29
-#############################################################################################
+   
+Used 32Feet.net support for developing this application.
+Thanks to In The Hand Ltd.
+
+##################################################################################################
