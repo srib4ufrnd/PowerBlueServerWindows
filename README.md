@@ -72,3 +72,10 @@ Second Install: 32Feet.Net
 
 Third Install: PowerBlue Server Application
 
+
+Power Blue Server Installers or Setups
+-------------------------------------------------------
+Different versions of Power Blue Server Installers will be present under the link below.
+Please find the installation instructions also in the same link.
+
+https://github.com/srib4ufrnd/PowerBlueServerWindows/tree/master/SetUps
