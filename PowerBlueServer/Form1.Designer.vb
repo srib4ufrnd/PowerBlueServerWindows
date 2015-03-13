@@ -38,6 +38,7 @@ Partial Class PowerBlueServerApp
         Me.Step2 = New System.Windows.Forms.Label()
         Me.Step3 = New System.Windows.Forms.Label()
         Me.ServerHelp = New System.Windows.Forms.Label()
+        Me.ServerImpNote = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'BrowsePptButton
@@ -186,11 +187,21 @@ Partial Class PowerBlueServerApp
         '
         Me.ServerHelp.AutoSize = True
         Me.ServerHelp.ForeColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.ServerHelp.Location = New System.Drawing.Point(396, 9)
+        Me.ServerHelp.Location = New System.Drawing.Point(9, 9)
         Me.ServerHelp.Name = "ServerHelp"
         Me.ServerHelp.Size = New System.Drawing.Size(38, 13)
         Me.ServerHelp.TabIndex = 15
         Me.ServerHelp.Text = "Help ?"
+        '
+        'ServerImpNote
+        '
+        Me.ServerImpNote.AutoSize = True
+        Me.ServerImpNote.ForeColor = System.Drawing.SystemColors.ButtonHighlight
+        Me.ServerImpNote.Location = New System.Drawing.Point(352, 9)
+        Me.ServerImpNote.Name = "ServerImpNote"
+        Me.ServerImpNote.Size = New System.Drawing.Size(88, 13)
+        Me.ServerImpNote.TabIndex = 16
+        Me.ServerImpNote.Text = "* Important Note*"
         '
         'PowerBlueServerApp
         '
@@ -199,6 +210,7 @@ Partial Class PowerBlueServerApp
         Me.AutoSize = True
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(80, Byte), Integer), CType(CType(179, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(446, 399)
+        Me.Controls.Add(Me.ServerImpNote)
         Me.Controls.Add(Me.ServerHelp)
         Me.Controls.Add(Me.Step3)
         Me.Controls.Add(Me.Step2)
@@ -236,5 +248,6 @@ Partial Class PowerBlueServerApp
     Friend WithEvents Step2 As System.Windows.Forms.Label
     Friend WithEvents Step3 As System.Windows.Forms.Label
     Friend WithEvents ServerHelp As System.Windows.Forms.Label
+    Friend WithEvents ServerImpNote As System.Windows.Forms.Label
 
 End Class

@@ -26,6 +26,9 @@ Public Class PowerBlueServerApp
         'Clears all the logs
         PowerBlueLogTextBox.Clear()
 
+        'Call the system requirements message box.
+        showTheImportantNoteAndSysRequirementsMessage()
+
         Dim answer As MsgBoxResult
         answer = MsgBox("All the current running Power point applications will be closed. Are you OK?", MsgBoxStyle.YesNo)
         If answer = MsgBoxResult.Yes Then
@@ -106,7 +109,7 @@ Public Class PowerBlueServerApp
 
             closeAlreadyOpenedPowerPointApp()
 
-            MsgBox("Ooops! Terminating the program   :-(" & vbCrLf & vbCrLf & "Possible Reasons:" & vbCrLf & vbCrLf & "1. User Stoped the server. Force close." & vbCrLf & vbCrLf & "2. Client disconnected from the server." & vbCrLf & vbCrLf & "3. Major Problem occured. So Force closing the server.")
+            MsgBox("Ooops! Terminating the program   :-(" & vbCrLf & vbCrLf & "Possible Reasons:" & vbCrLf & vbCrLf & "1. User Stoped the server. Force close." & vbCrLf & vbCrLf & "2. Client disconnected from the server." & vbCrLf & vbCrLf & "3. Power Point Closed. No Power Point Object To Operate." & vbCrLf & vbCrLf & "4. User forcely interrupted/closed the PowerPoint/SlideShow." & vbCrLf & vbCrLf & "5. Major Problem occured. So Force closing the server.")
             'Completly closes the application.
             End
 
@@ -131,6 +134,7 @@ Public Class PowerBlueServerApp
 
         If Not TypeName(pptAppObj) = "Empty" Then
             'MsgBox("This closes the current running Power point application to Start the Server.")
+            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Closing the current running Power point application to Start the Server." & vbCrLf & vbCrLf)
             exitPowerPoint()
         Else
 
@@ -387,6 +391,7 @@ Public Class PowerBlueServerApp
                 streamRecievedFromBtClient = blueToothClient.GetStream()
                 If (streamRecievedFromBtClient IsNot Nothing) Then
                     'MsgBox("startBluetoothServerInANewThread: Inside If Loop: Begin Read stream")
+                    PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Listening for commands from Client" & vbCrLf & vbCrLf)
                     streamRecievedFromBtClient.BeginRead(received, 0, received.Length, New AsyncCallback(AddressOf ReadCallBack), received)
                 End If
             Else
@@ -491,65 +496,66 @@ Public Class PowerBlueServerApp
 
     Private Sub controlPowerPointWithCommand(pptControllingCommand As String)
         'MsgBox("Command:" & pptControllingCommand & ":")
+        PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Command Recieved From Client: " & pptControllingCommand & ":" & vbCrLf & vbCrLf)
 
         If ((pptControllingCommand.Length() = 4) AndAlso (pptControllingCommand.StartsWith("Open")) AndAlso (pptControllingCommand.EndsWith("Open"))) Then
             'MsgBox("Command Recieved: Open")
-            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Command Recieved From Client: Open" & vbCrLf & vbCrLf)
+            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Processing The Command From Client As: Open" & vbCrLf & vbCrLf)
             'Do the coding here
             openPowerPoint(pptFileName)
         ElseIf ((pptControllingCommand.Length() = 4) AndAlso (pptControllingCommand.StartsWith("Exit")) AndAlso (pptControllingCommand.EndsWith("Exit"))) Then
             'MsgBox("Command Recieved: Exit")
-            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Command Recieved From Client: Exit" & vbCrLf & vbCrLf)
+            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Processing The Command From Client As: Exit" & vbCrLf & vbCrLf)
             closeAlreadyOpenedPowerPointApp()
         ElseIf ((pptControllingCommand.Length() = 4) AndAlso (pptControllingCommand.StartsWith("Strt")) AndAlso (pptControllingCommand.EndsWith("Strt"))) Then
             'MsgBox("Command Recieved: Strt")
-            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Command Recieved From Client: Strt" & vbCrLf & vbCrLf)
+            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Processing The Command From Client As: Strt" & vbCrLf & vbCrLf)
             'Do the coding here
             startPowerPointSlideShow()
         ElseIf ((pptControllingCommand.Length() = 4) AndAlso (pptControllingCommand.StartsWith("Stop")) AndAlso (pptControllingCommand.EndsWith("Stop"))) Then
             'MsgBox("Command Recieved: Stop")
-            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Command Recieved From Client: Stop" & vbCrLf & vbCrLf)
+            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Processing The Command From Client As: Stop" & vbCrLf & vbCrLf)
             'Do the coding here
             stopPowerPointSlideShow()
         ElseIf ((pptControllingCommand.Length() = 4) AndAlso (pptControllingCommand.StartsWith("Rsrt")) AndAlso (pptControllingCommand.EndsWith("Rsrt"))) Then
             'MsgBox("Command Recieved: Rsrt")
-            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Command Recieved From Client: Rsrt" & vbCrLf & vbCrLf)
+            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Processing The Command From Client As: Rsrt" & vbCrLf & vbCrLf)
             'Do the coding here
             restartPowerPointFromFirstSlide()
         ElseIf ((pptControllingCommand.Length() = 4) AndAlso (pptControllingCommand.StartsWith("Prev")) AndAlso (pptControllingCommand.EndsWith("Prev"))) Then
             'MsgBox("Command Recieved: Prev")
-            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Command Recieved From Client: Prev" & vbCrLf & vbCrLf)
+            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Processing The Command From Client As: Prev" & vbCrLf & vbCrLf)
             movePowerPointToPreviousSlide()
         ElseIf ((pptControllingCommand.Length() = 4) AndAlso (pptControllingCommand.StartsWith("Next")) AndAlso (pptControllingCommand.EndsWith("Next"))) Then
             'MsgBox("Command Recieved: Next")
-            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Command Recieved From Client: Next" & vbCrLf & vbCrLf)
+            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Processing The Command From Client As: Next" & vbCrLf & vbCrLf)
             movePowerPointToNextSlide()
         ElseIf ((pptControllingCommand.Length() = 4) AndAlso (pptControllingCommand.StartsWith("Frst")) AndAlso (pptControllingCommand.EndsWith("Frst"))) Then
             'MsgBox("Command Recieved: Frst")
-            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Command Recieved From Client: Frst" & vbCrLf & vbCrLf)
+            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Processing The Command From Client As: Frst" & vbCrLf & vbCrLf)
             movePowerPointToFirstSlide()
         ElseIf ((pptControllingCommand.Length() = 4) AndAlso (pptControllingCommand.StartsWith("Last")) AndAlso (pptControllingCommand.EndsWith("Last"))) Then
             'MsgBox("Command Recieved: Last")
-            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Command Recieved From Client: Last" & vbCrLf & vbCrLf)
+            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Processing The Command From Client As: Last" & vbCrLf & vbCrLf)
             movePowerPointToLastSlide()
         ElseIf ((pptControllingCommand.Length() = 4) AndAlso (pptControllingCommand.StartsWith("Whit")) AndAlso (pptControllingCommand.EndsWith("Whit"))) Then
             'MsgBox("Command Recieved: Whit")
-            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Command Recieved From Client: Whit" & vbCrLf & vbCrLf)
+            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Processing The Command From Client As: Whit" & vbCrLf & vbCrLf)
             'Do the coding here
             displayWhiteBackGround()
         ElseIf ((pptControllingCommand.Length() = 4) AndAlso (pptControllingCommand.StartsWith("Blac")) AndAlso (pptControllingCommand.EndsWith("Blac"))) Then
             'MsgBox("Command Recieved: Blac")
-            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Command Recieved From Client: Blac" & vbCrLf & vbCrLf)
+            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Processing The Command From Client As: Blac" & vbCrLf & vbCrLf)
             'Do the coding here
             displayBlackBackGround()
         ElseIf ((pptControllingCommand.Length() = 4) AndAlso (pptControllingCommand.StartsWith("Norm")) AndAlso (pptControllingCommand.EndsWith("Norm"))) Then
             'MsgBox("Command Recieved: Norm")
-            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Command Recieved From Client: Norm" & vbCrLf & vbCrLf)
+            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Processing The Command From Client As: Norm" & vbCrLf & vbCrLf)
             'Do the coding here
             displayRunningBackGround()
         ElseIf ((pptControllingCommand.Length() = 4) AndAlso (pptControllingCommand.StartsWith("G"))) Then
             'MsgBox("Command Recieved: Blac")
-            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Command Recieved From Client:" & pptControllingCommand & vbCrLf & vbCrLf)
+            PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Processing The Command From Client As:" & pptControllingCommand & vbCrLf & vbCrLf)
             'Do the coding here
             goToTheSlideNum(pptControllingCommand)
         End If
@@ -563,9 +569,15 @@ Public Class PowerBlueServerApp
             If (pptAppObj Is Nothing) Then
                 'pptAppObj = CreateObject("powerpoint.application")
                 closeAlreadyOpenedPowerPointApp()
+                PowerBlueLogTextBox.AppendText(vbCrLf & vbCrLf & "Successfully Closed All PowerPoint Applications.")
+                PowerBlueLogTextBox.AppendText(vbCrLf & "In the Process Of Creating PPT Application.....")
                 pptAppObj = New PowerPoint.Application
+                PowerBlueLogTextBox.AppendText(vbCrLf & "Created New Power Point Application Object To Work On.")
                 If (presentation Is Nothing) Then
+                    PowerBlueLogTextBox.AppendText(vbCrLf & "Both PowerPoint And Presentation Are Nothing.")
+                    PowerBlueLogTextBox.AppendText(vbCrLf & "Creating And Preparing The Presentation To Open.")
                     presentation = pptAppObj.Presentations.Open(FileName:=pptFileName, ReadOnly:=True)
+                    PowerBlueLogTextBox.AppendText(vbCrLf & "Succesfully Created And Opened New Presentation.")
                     'pptAppObj.Visible = True
                 End If
 
@@ -1069,6 +1081,18 @@ Public Class PowerBlueServerApp
 
 
     Private Sub ServerHelp_Click(sender As Object, e As EventArgs) Handles ServerHelp.Click
-        MsgBox("                                                  Instructions To Run Server                                                 " & vbCrLf & vbCrLf & "1. Make sure that the bluetooth adapter is available in your machine." & vbCrLf & vbCrLf & "2. Make sure that the bluetooth is turned on in your machine." & vbCrLf & vbCrLf & "3. Make sure that the bluetooth adapter is turned on in your machine via Bluetooth Settings." & vbCrLf & vbCrLf & "4. Make sure your machine is made visible to other devices via bluetooth settings." & vbCrLf & vbCrLf & "5. Make sure your machine allows bluetooth devices to connect via bluetooth settings." & vbCrLf & vbCrLf & "6. [Optional] In Case of any strange errors, installing 32feet.net might solve." & vbCrLf & "    Please find download link below." & vbCrLf & "    http://32feet.codeplex.com/releases/view/88941 " & vbCrLf & vbCrLf & "7. For more info please refer to the installation instructions in github link below." & vbCrLf & "    http://bit.ly/1zkKX29" & vbCrLf & vbCrLf & vbCrLf & vbCrLf & "  Used 32Feet.net support for developing this application." & vbCrLf & "  Thanks to In The Hand Ltd.  ")
+        MsgBox("                                                  Instructions To Run Server                                                 " & vbCrLf & vbCrLf & "1.Make sure that all the power point slideshows & Power Point applications are closed before starting Power Blue Server." & vbCrLf & vbCrLf & "2. Make sure that the bluetooth adapter is available in your machine." & vbCrLf & vbCrLf & "3. Make sure that the bluetooth is turned on in your machine." & vbCrLf & vbCrLf & "4. Make sure that the bluetooth adapter is turned on in your machine via Bluetooth Settings." & vbCrLf & vbCrLf & "5. Make sure your machine is made visible to other devices via bluetooth settings." & vbCrLf & vbCrLf & "6. Make sure your machine allows bluetooth devices to connect via bluetooth settings." & vbCrLf & vbCrLf & "7. [Optional] In Case of any strange errors, installing 32feet.net might solve." & vbCrLf & "    Please find download link below." & vbCrLf & "    http://32feet.codeplex.com/releases/view/88941 " & vbCrLf & vbCrLf & "8. For more info please refer to the installation instructions in github link below." & vbCrLf & "    http://bit.ly/1zkKX29" & vbCrLf & vbCrLf & vbCrLf & vbCrLf & "  Used 32Feet.net support for developing this application." & vbCrLf & "  Thanks to In The Hand Ltd.  ")
     End Sub
+
+    Private Sub Label1_Click(sender As Object, e As EventArgs) Handles ServerImpNote.Click
+        showTheImportantNoteAndSysRequirementsMessage()
+    End Sub
+
+
+    Private Sub showTheImportantNoteAndSysRequirementsMessage()
+
+        MsgBox("                                                  VERY VERY IMPORTANT NOTE                                                 " & vbCrLf & vbCrLf & "Power Blue Server Tested well and working well on the below system environment." & vbCrLf & vbCrLf & "Power Blue Server Might or Might not work on all other environments." & vbCrLf & vbCrLf & vbCrLf & vbCrLf & "Please feel free to install and test the power blue server on other environments as well." & vbCrLf & vbCrLf & "Please inform us at the below github link whether the power blue server is working fine or not in the other environments." & vbCrLf & vbCrLf & "Please do mention the environment details as well in the github link below, with the status as WORKING or NOT_WORKING." & vbCrLf & vbCrLf & "GITHUB LINK: http://bit.ly/1zkKX29" & vbCrLf & vbCrLf & "Thank You." & vbCrLf & vbCrLf & vbCrLf & vbCrLf & "                                                  SYSTEM REQUIREMENTS                                                 " & vbCrLf & vbCrLf & "Microsoft Office: Microsoft Office Professional Plus 2010" & vbCrLf & vbCrLf & "Microsoft PowerPoint: Microsoft PowerPoint 2010 - 32 Bit" & vbCrLf & vbCrLf & "Power Point Extensions: PPT & PPTX" & vbCrLf & vbCrLf & "Operating System:  Windows 7 Enterprise - Service Pack 1" & vbCrLf & vbCrLf & "Processor: Intel(R) Core(TM) i7-3635 QM CPU @ 2.40GHz 2.40GHz" & vbCrLf & vbCrLf & "RAM: 8 GB" & vbCrLf & vbCrLf & "System Type: 64-bit Operating System.")
+
+    End Sub
+
 End Class
